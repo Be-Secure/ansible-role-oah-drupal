@@ -3,7 +3,7 @@
     msg: "Setting up drupal"
 - name: Downloading artifact
   get_url:
-    url: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip
+    url: https://ftp.drupal.org/files/projects/drupal-8.6.5.zip
     dest: "/var/www/html/drupal"
   
 - name: "Extracting to /var/www/html/drupal"
