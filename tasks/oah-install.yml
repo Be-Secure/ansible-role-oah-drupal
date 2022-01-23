@@ -1,0 +1,21 @@
+---
+- debug: 
+    msg: "Setting up drupal"
+- name: Downloading artifact
+  get_url:
+    url: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip
+    dest: "/var/www/html/drupal"
+  
+- name: "Extracting to /var/www/html/drupal"
+  ansible.builtin.unarchive:
+    src: "/var/www/html/drupal/drupal-8.6.5.zip"
+    dest: "/var/www/html/drupal"
+  become: true
+
+- name: Setting up file permissions
+  shell: |
+    mkdir -p /var/www/html/drupal-8.6.5/sites/default/files
+    chmod -R 777 /var/www/html/drupal-8.6.5/sites/default/files
+    cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
+    chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
+  become: true
