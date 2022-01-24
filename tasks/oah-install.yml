@@ -12,7 +12,9 @@
     state: present
   
 - name: "Extracting to /var/www/html"
-  shell: unzip /var/www/html/drupal-8.6.5.zip
+  shell: | 
+    unzip /var/www/html/drupal-8.6.5.zip
+    ls /var/www/html/drupal-8.6.5.zip
   become: true
 
 - name: Setting up file permissions
