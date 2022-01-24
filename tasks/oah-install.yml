@@ -1,10 +1,9 @@
 ---
 - debug: 
     msg: "Setting up drupal"
+
 - name: Downloading artifact
-  get_url:
-    url: https://ftp.drupal.org/files/projects/drupal-8.6.5.zip
-    dest: "/var/www/html/drupal-8.6.5.zip"
+  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/drupal_RT_env 
 
 - name: installing unzip
   apt:
