@@ -9,22 +9,25 @@
     - unzip
 
 - name: Downloading artifact
-  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
   become: true
+  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
+  
 
 - name: listing contents of zip
   shell: zip –sf /var/www/html/drupal-8.6.5.zip
   
 - name: "Extracting to /var/www/html"
+  become: true
   shell: | 
     unzip /var/www/html/drupal-8.6.5.zip
     ls /var/www/html/drupal-8.6.5.zip
-  become: true
+  
 
 - name: Setting up file permissions
+  become: true
   shell: |
     mkdir -p /var/www/html/drupal-8.6.5/sites/default/files
     chmod -R 777 /var/www/html/drupal-8.6.5/sites/default/files
     cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
     chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
-  become: true
+  
