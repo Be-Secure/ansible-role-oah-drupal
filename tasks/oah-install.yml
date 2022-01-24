@@ -16,12 +16,18 @@
 - name: listing contents of zip
   shell: zip –sf /var/www/html/drupal-8.6.5.zip
   
-- name: "Extracting to /var/www/html"
-  become: true
-  shell: | 
-    unzip /var/www/html/drupal-8.6.5.zip
-    ls /var/www/html/drupal-8.6.5.zip
+# - name: "Extracting to /var/www/html"
+#   become: true
+#   shell: | 
+#     unzip /var/www/html/drupal-8.6.5.zip
+#     ls /var/www/html/drupal-8.6.5.zip
   
+- name: "Extracting to /var/www/html"
+  ansible.builtin.unarchive:
+    src: /var/www/html/drupal-8.6.5.zip
+    dest: /var/www/html/drupal-8.6.5
+    remote_src: yes
+  become: true
 
 - name: Setting up file permissions
   become: true
