@@ -3,8 +3,7 @@
     msg: "Setting up drupal"
 
 - name: Downloading artifact
-  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/drupal_RT_env 
-
+  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
 - name: installing unzip
   apt:
     name: unzip
