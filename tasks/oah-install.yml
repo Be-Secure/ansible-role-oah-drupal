@@ -25,7 +25,7 @@
 - name: "Extracting to /var/www/html"
   ansible.builtin.unarchive:
     src: /var/www/html/drupal-8.6.5.zip
-    dest: /var/www/html/drupal-8.6.5
+    dest: /var/www/html/
     remote_src: yes
   become: true
 
