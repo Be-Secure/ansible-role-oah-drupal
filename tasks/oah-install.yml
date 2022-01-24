@@ -1,15 +1,19 @@
 ---
 - debug: 
     msg: "Setting up drupal"
+    
+- name: installing unzip
+  apt:
+    pkg:
+    - zip
+    - unzip
 
 - name: Downloading artifact
   shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
   become: true
-  
-- name: installing unzip
-  apt:
-    name: unzip
-    state: present
+
+- name: listing contents of zip
+  shell: zip –sf /var/www/html/drupal-8.6.5.zip
   
 - name: "Extracting to /var/www/html"
   shell: | 
