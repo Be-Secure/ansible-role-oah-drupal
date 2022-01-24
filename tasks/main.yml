@@ -1,6 +1,9 @@
 ---
 - include: tasks/oah-install.yml
   when: oah_command == "install"
+  
+- include: tasks/oah-dbsetup.yml
+  when: oah_command == "install"
 
 # - include: tasks/oah-update.yml
 #   when: oah_command == "update"
