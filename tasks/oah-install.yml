@@ -4,6 +4,8 @@
 
 - name: Downloading artifact
   shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
+  become: true
+  
 - name: installing unzip
   apt:
     name: unzip
