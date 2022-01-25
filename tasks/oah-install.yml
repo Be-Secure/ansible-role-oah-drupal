@@ -2,11 +2,11 @@
 - debug: 
     msg: "Setting up drupal"
     
-# - name: installing unzip
-#   apt:
-#     pkg:
-#     - zip
-#     - unzip
+- name: installing unzip
+  apt:
+    pkg:
+    - zip
+    - unzip
 
 - name: Downloading artifact
   become: true
