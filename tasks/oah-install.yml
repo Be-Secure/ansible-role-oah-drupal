@@ -42,6 +42,7 @@
   ansible.builtin.copy:
     src: /etc/php/7.2/apache2/php.ini
     dest: /usr/lib/php/7.2/php.ini-production
+    remote_src: yes
 
 
 - name: Installing libapache2-mod-php
