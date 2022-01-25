@@ -40,8 +40,8 @@
 - name: Installing libapache2-mod-php
   become: true
   shell: |
-    apt-get install libapache2-mod-php7.4
-    a2enmod php7.4
+    apt-get install libapache2-mod-php7.2
+    a2enmod php7.2
     systemctl restart apache2.service
     
   
