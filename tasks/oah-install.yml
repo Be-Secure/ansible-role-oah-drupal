@@ -37,11 +37,11 @@
     cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
     chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
 
-- name: Installing libapache2-mod-php
-  become: true
-  shell: |
-    apt-get install libapache2-mod-php7.2
-    a2enmod php7.2
-    systemctl restart apache2.service
+# - name: Installing libapache2-mod-php
+#   become: true
+#   shell: |
+#     apt-get install libapache2-mod-php7.2
+#     a2enmod php7.2
+#     systemctl restart apache2.service
     
   
