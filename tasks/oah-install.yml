@@ -8,9 +8,15 @@
     - zip
     - unzip
 
+
 - name: Downloading artifact
   become: true
-  shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
+  shell: wget {{artifact_url}} -P {{drupal_deploy_dir}}
+  
+
+# - name: Downloading artifact
+#   become: true
+#   shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
   
 
 # - name: listing contents of zip
@@ -21,21 +27,39 @@
 #   shell: | 
 #     unzip /var/www/html/drupal-8.6.5.zip
 #     ls /var/www/html/drupal-8.6.5.zip
-  
+
+
 - name: "Extracting to /var/www/html"
   ansible.builtin.unarchive:
-    src: /var/www/html/drupal-8.6.5.zip
-    dest: /var/www/html/
+    src: "{{drupal_core_zip}}"
+    dest: "{{drupal_deploy_dir}}"
     remote_src: yes
-  become: true
+  become: true  
+
+# - name: "Extracting to /var/www/html"
+#   ansible.builtin.unarchive:
+#     src: /var/www/html/drupal-8.6.5.zip
+#     dest: /var/www/html/
+#     remote_src: yes
+#   become: true
+
+# - name: Setting up file permissions
+#   become: true
+#   shell: |
+#     mkdir -p /var/www/html/drupal-8.6.5/sites/default/files
+#     chmod -R 777 /var/www/html/drupal-8.6.5/sites/default/files
+#     cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
+#     chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
+
 
 - name: Setting up file permissions
   become: true
   shell: |
-    mkdir -p /var/www/html/drupal-8.6.5/sites/default/files
-    chmod -R 777 /var/www/html/drupal-8.6.5/sites/default/files
-    cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
-    chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
+    mkdir -p "{{drupal_default_path}}/files"
+    chmod -R 777 "{{drupal_default_path}}/files"
+    cp "{{drupal_default_path}}/default.settings.php" "{{drupal_default_path}}/settings.php"
+    chmod 777 "{{drupal_default_path}}/settings.php"
+
 
 - name: Updating php configuration
   become: true
