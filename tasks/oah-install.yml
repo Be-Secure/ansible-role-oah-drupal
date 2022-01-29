@@ -22,18 +22,18 @@
 # - name: listing contents of zip
 #   shell: zip –sf /var/www/html/drupal-8.6.5.zip
   
-- name: "Extracting to /var/www/html"
-  become: true
-  shell: | 
-    unzip /var/www/html/drupal-8.6.5.zip
-
-
 # - name: "Extracting to /var/www/html"
-#   ansible.builtin.unarchive:
-#     src: "{{drupal_core_zip}}"
-#     dest: "{{drupal_deploy_dir}}"
-# #     remote_src: yes
-#   become: true  
+#   become: true
+#   shell: | 
+#     unzip /var/www/html/drupal-8.6.5.zip
+
+
+- name: "Extracting to /var/www/html"
+  ansible.builtin.unarchive:
+    src: "{{drupal_core_zip}}"
+    dest: "{{drupal_deploy_dir}}"
+#     remote_src: yes
+  become: true  
 
 # - name: "Extracting to /var/www/html"
 #   ansible.builtin.unarchive:
