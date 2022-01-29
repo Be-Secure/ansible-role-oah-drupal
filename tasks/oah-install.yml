@@ -33,7 +33,7 @@
   ansible.builtin.unarchive:
     src: "{{drupal_core_zip}}"
     dest: "{{drupal_deploy_dir}}"
-    remote_src: yes
+#     remote_src: yes
   become: true  
 
 # - name: "Extracting to /var/www/html"
