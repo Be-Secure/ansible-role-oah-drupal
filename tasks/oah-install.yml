@@ -79,7 +79,9 @@
   ansible.builtin.lineinfile:
     path: /etc/apache2/sites-enabled/000-default.conf
     insertafter: DocumentRoot.*
-    line: "{{httd_override_code}}"
+    line: "{{ httd_override_code }}"
+  loop: "{{ httd_override_code }}"
+ 
         
     
   
