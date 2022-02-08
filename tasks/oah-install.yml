@@ -74,4 +74,12 @@
     a2enmod php7.2
     systemctl restart apache2.service
     
+- name: Enabling .httd override access 
+  become: true
+  ansible.bultin.lineinfile:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    insertafter: DocumentRoot.*
+    line: "{{httd_override_code}}"
+        
+    
   
