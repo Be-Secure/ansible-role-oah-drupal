@@ -76,7 +76,7 @@
     
 - name: Enabling .httd override access 
   become: true
-  ansible.bultin.lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/apache2/sites-enabled/000-default.conf
     insertafter: DocumentRoot.*
     line: "{{httd_override_code}}"
