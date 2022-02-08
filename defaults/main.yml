@@ -13,6 +13,6 @@ drupal_db_host: "localhost"
 drupal_db_name: "drupal_db"
 
 httd_override_code:
-  - "<Directory /var/www/html>"
-  - "AllowOverride All"
-  - "</Directory>"
+  - <Directory /var/www/html>
+  - AllowOverride All
+  - </Directory>
