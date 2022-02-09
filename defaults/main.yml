@@ -14,7 +14,7 @@ drupal_db_name: "drupal_db"
 
 apache2_default_conf_path: "/etc/apache2/sites-enabled/000-default.conf"
 
-ht_access_code:
+ht_access_raw_code:
   - "<Directory /var/www/html>"
   - "AllowOverride All"
   - "</Directory>"
