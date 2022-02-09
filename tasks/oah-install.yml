@@ -95,6 +95,11 @@
     line: "\t{{ htaccess_code }}"      
     insertafter: DocumentRoot.*
     
+- name: Restart apache2 service
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+
 - name: "Turning off phar.readonly"
   become: true
   ansible.builtin.lineinfile:
