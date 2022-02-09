@@ -12,7 +12,9 @@ drupal_db_password: "12345"
 drupal_db_host: "localhost"
 drupal_db_name: "drupal_db"
 
-httd_override_code:
-  - <Directory /var/www/html>
-  - AllowOverride All
-  - </Directory>
+apache2_default_conf_path: "/etc/apache2/sites-enabled/000-default.conf"
+
+ht_access_code:
+  - "<Directory /var/www/html>"
+  - "AllowOverride All"
+  - "</Directory>"
