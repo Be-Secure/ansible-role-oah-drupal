@@ -105,10 +105,10 @@
 #   loop: "{{ httd_override_code }}"
   
 
-- name: Converting config code to string
-  set_fact:
-    htaccess_code: "{{ ht_access_raw_code | join('\n\t') }}"
-    phar_code: "{{ phar_raw_code | join('\n') }}"
+# - name: Converting config code to string
+#   set_fact:
+#     htaccess_code: "{{ ht_access_raw_code | join('\n\t') }}"
+#     phar_code: "{{ phar_raw_code | join('\n') }}"
     
 # - name: Enable necessary .htaccess overrides
 #   become: true
@@ -122,12 +122,12 @@
 #     name: apache2
 #     state: restarted
 
-- name: "Turning off phar.readonly"
-  become: true
-  ansible.builtin.lineinfile:
-    path: "{{ php_cli_ini_path }}"
-    line: "{{ phar_code }}\n"      
-    insertbefore: CLI Server.*
+# - name: "Turning off phar.readonly"
+#   become: true
+#   ansible.builtin.lineinfile:
+#     path: "{{ php_cli_ini_path }}"
+#     line: "{{ phar_code }}\n"      
+#     insertbefore: CLI Server.*
         
 
  
