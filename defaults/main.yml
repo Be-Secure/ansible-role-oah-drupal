@@ -1,11 +1,15 @@
 ---
 # defaults file for ansible-role-oah-drupal
 drupal_core_version: "8.6.5"
-artifact_url: "https://ftp.drupal.org/files/projects/drupal-{{drupal_core_version}}.zip"
+drupal_artifact_url: "https://ftp.drupal.org/files/projects/drupal-{{drupal_core_version}}.zip"
 drupal_deploy_dir: "/var/www/html/"
 drupal_core_zip: "{{drupal_deploy_dir}}/drupal-{{drupal_core_version}}.zip"
 drupal_core: "{{drupal_deploy_dir}}/drupal-{{drupal_core_version}}"
 drupal_default_path: "{{drupal_core}}/sites/default"
+
+drupal_apt_packages:
+  - zip
+  - unzip
 
 drupal_db_user: "drupal_user"
 drupal_db_password: "12345"
