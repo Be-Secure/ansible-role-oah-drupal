@@ -18,3 +18,11 @@ ht_access_code:
   - "<Directory /var/www/html>"
   - "AllowOverride All"
   - "</Directory>"
+  
+
+php_ini_path: "/etc/php/7.2/cli/php.ini"
+
+phar_raw_code:
+  - "[Phar]"
+  - "phar.readonly = Off"
+  - "phar.require_hash = Off"
