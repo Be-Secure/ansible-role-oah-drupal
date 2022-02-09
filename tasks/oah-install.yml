@@ -2,16 +2,15 @@
 - debug: 
     msg: "Setting up drupal"
     
-- name: installing unzip
+- name: Installing apt packages
   apt:
-    pkg:
-    - zip
-    - unzip
+    name: "{{drupal_apt_packages}}
+    state: present
 
 
 - name: Downloading artifact
   become: true
-  shell: wget {{artifact_url}} -P {{drupal_deploy_dir}}
+  shell: wget {{drupal_artifact_url}} -P {{drupal_deploy_dir}}
   
 
 # - name: Downloading artifact
@@ -50,7 +49,20 @@
 #     cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
 #     chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
 
-
+- name: Creating files directory
+  become: true
+  file: 
+    path: "{{drupal_default_path}}/files"
+    state: directory
+    mode: 0777
+    
+- name: Setting up settings.php
+  become: true
+  ansible.builtin.copy:
+    src: "{{drupal_default_path}}/default.settings.php"
+    dest: "{{drupal_default_path}}/settings.php"
+    mode: 0777
+    
 - name: Setting up file permissions
   become: true
   shell: |
@@ -58,6 +70,7 @@
     chmod -R 777 "{{drupal_default_path}}/files"
     cp "{{drupal_default_path}}/default.settings.php" "{{drupal_default_path}}/settings.php"
     chmod 777 "{{drupal_default_path}}/settings.php"
+  remote_src: "{{  }}"
 
 
 - name: Updating php configuration
