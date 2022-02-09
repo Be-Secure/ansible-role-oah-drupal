@@ -20,7 +20,7 @@ ht_access_raw_code:
   - "</Directory>"
   
 
-php_ini_path: "/etc/php/7.2/cli/php.ini"
+php_cli_ini_path: "/etc/php/7.2/cli/php.ini"
 
 phar_raw_code:
   - "[Phar]"
