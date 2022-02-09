@@ -23,6 +23,7 @@ ht_access_raw_code:
   - "AllowOverride All"
   - "</Directory>"
   
+vm_mode: "host"
 
 php_cli_ini_path: "/etc/php/7.2/cli/php.ini"
 
