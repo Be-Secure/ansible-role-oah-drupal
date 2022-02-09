@@ -74,13 +74,27 @@
     a2enmod php7.2
     systemctl restart apache2.service
     
-- name: Enabling .httd override access 
+# - name: Enabling .httd override access 
+#   become: true
+#   ansible.builtin.lineinfile:
+#     path: /etc/apache2/sites-enabled/000-default.conf
+#     insertafter: DocumentRoot.*
+#     line: '{{ httd_override_code }}'
+#   loop: "{{ httd_override_code }}"
+  
+
+- name: Converting override code to string
+  set_fact:
+    converted_code: "{{ ht_access_code | join('\n\t') }}"
+    
+- name: Enable necessary .htaccess overrides
   become: true
   ansible.builtin.lineinfile:
-    path: /etc/apache2/sites-enabled/000-default.conf
+    path: "{{ apache2_default_conf_path }}"
+    line: "\t{{ converted_code }}"      
     insertafter: DocumentRoot.*
-    line: '{{ httd_override_code }}'
-  loop: "{{ httd_override_code }}"
+        
+
  
         
     
