@@ -67,12 +67,12 @@
     # remote_src: yes
 
 
-- name: Installing libapache2-mod-php
-  become: true
-  shell: |
-    apt-get install libapache2-mod-php7.2
-    a2enmod php7.2
-    systemctl restart apache2.service
+# - name: Installing libapache2-mod-php
+#   become: true
+#   shell: |
+#     apt-get install libapache2-mod-php7.2
+#     a2enmod php7.2
+#     systemctl restart apache2.service
     
 # - name: Enabling .httd override access 
 #   become: true
