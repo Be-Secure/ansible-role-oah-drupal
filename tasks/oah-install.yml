@@ -4,13 +4,16 @@
     
 - name: Installing apt packages
   apt:
-    name: "{{drupal_apt_packages}}
+    name: "{{drupal_apt_packages}}"
     state: present
 
 
 - name: Downloading artifact
   become: true
-  shell: wget {{drupal_artifact_url}} -P {{drupal_deploy_dir}}
+  get_url:
+    url: "{{drupal_artifact_url}}"
+    dest: "{{drupal_deploy_dir}}"
+  # shell: wget {{drupal_artifact_url}} -P {{drupal_deploy_dir}}
   
 
 # - name: Downloading artifact
@@ -62,22 +65,28 @@
     src: "{{drupal_default_path}}/default.settings.php"
     dest: "{{drupal_default_path}}/settings.php"
     mode: 0777
-    
-- name: Setting up file permissions
-  become: true
-  shell: |
-    mkdir -p "{{drupal_default_path}}/files"
-    chmod -R 777 "{{drupal_default_path}}/files"
-    cp "{{drupal_default_path}}/default.settings.php" "{{drupal_default_path}}/settings.php"
-    chmod 777 "{{drupal_default_path}}/settings.php"
-  remote_src: "{{  }}"
+  remote_src: "{{ (vm_mode == 'host')|ternary('yes', 'no') }}"
+
+# - name: Setting up file permissions
+#   become: true
+#   shell: |
+#     mkdir -p "{{drupal_default_path}}/files"
+#     chmod -R 777 "{{drupal_default_path}}/files"
+#     cp "{{drupal_default_path}}/default.settings.php" "{{drupal_default_path}}/settings.php"
+#     chmod 777 "{{drupal_default_path}}/settings.php"
+  
 
 
 - name: Updating php configuration
   become: true
-  shell: |
-    cp /etc/php/7.2/apache2/php.ini /usr/lib/php/7.2/php.ini-production
-    # remote_src: yes
+  ansible.builtin.copy:
+    src: "/etc/php/7.2/apache2/php.ini"
+    dest: "/usr/lib/php/7.2/php.ini-production"
+  remote_src: "{{ (vm_mode == host)|ternary('yes', 'no') }}"
+
+  # shell: |
+  #   cp /etc/php/7.2/apache2/php.ini /usr/lib/php/7.2/php.ini-production
+  #   # remote_src: yes
 
 
 # - name: Installing libapache2-mod-php
