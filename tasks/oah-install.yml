@@ -86,7 +86,7 @@
 - name: Converting config code to string
   set_fact:
     htaccess_code: "{{ ht_access_raw_code | join('\n\t') }}"
-    phar_code: "{{ phar_raw_code | join('\n\t') }}"
+    phar_code: "{{ phar_raw_code | join('\n') }}"
     
 - name: Enable necessary .htaccess overrides
   become: true
@@ -104,8 +104,8 @@
   become: true
   ansible.builtin.lineinfile:
     path: "{{ php_cli_ini_path }}"
-    line: "\t{{ phar_code }}"      
-    insertbefore: "[CLI Server]"
+    line: "{{ phar_code }}"      
+    insertbefore: *.CLI Server.*
         
 
  
