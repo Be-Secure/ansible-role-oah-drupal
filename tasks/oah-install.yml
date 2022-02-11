@@ -80,7 +80,8 @@
   shell: |
     apt-get install libapache2-mod-php7.2
     a2enmod php7.2
-    systemctl restart apache2.service
+    
+# systemctl restart apache2.service
     
     
 - name: Enable necessary .htaccess overrides
