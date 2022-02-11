@@ -16,11 +16,12 @@
   
 
 - name: "Extracting to /var/www/html"
+  become: true
   ansible.builtin.unarchive:
     src: "{{drupal_core_zip}}"
     dest: "{{drupal_deploy_dir}}"
     remote_src: "{{ (oah_vm_mode == 'host')|ternary('no', 'yes') }}"
-become: true  
+  
 
 # - name: "Extracting to /var/www/html"
 #   ansible.builtin.unarchive:
