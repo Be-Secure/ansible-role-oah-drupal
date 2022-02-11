@@ -13,29 +13,14 @@
   get_url:
     url: "{{drupal_artifact_url}}"
     dest: "{{drupal_deploy_dir}}"
-  # shell: wget {{drupal_artifact_url}} -P {{drupal_deploy_dir}}
   
-
-# - name: Downloading artifact
-#   become: true
-#   shell: wget https://ftp.drupal.org/files/projects/drupal-8.6.5.zip -P /var/www/html/
-  
-
-# - name: listing contents of zip
-#   shell: zip –sf /var/www/html/drupal-8.6.5.zip
-  
-# - name: "Extracting to /var/www/html"
-#   become: true
-#   shell: | 
-#     unzip /var/www/html/drupal-8.6.5.zip
-
 
 - name: "Extracting to /var/www/html"
   ansible.builtin.unarchive:
     src: "{{drupal_core_zip}}"
     dest: "{{drupal_deploy_dir}}"
-#     remote_src: yes
-  become: true  
+    remote_src: "{{ (vm_mode == 'host')|ternary('no', 'yes') }}"
+become: true  
 
 # - name: "Extracting to /var/www/html"
 #   ansible.builtin.unarchive:
@@ -89,45 +74,32 @@
   #   # remote_src: yes
 
 
-# - name: Installing libapache2-mod-php
-#   become: true
-#   shell: |
-#     apt-get install libapache2-mod-php7.2
-#     a2enmod php7.2
-#     systemctl restart apache2.service
+- name: Installing libapache2-mod-php
+  become: true
+  shell: |
+    apt-get install libapache2-mod-php7.2
+    a2enmod php7.2
+    systemctl restart apache2.service
     
-# - name: Enabling .httd override access 
-#   become: true
-#   ansible.builtin.lineinfile:
-#     path: /etc/apache2/sites-enabled/000-default.conf
-#     insertafter: DocumentRoot.*
-#     line: '{{ httd_override_code }}'
-#   loop: "{{ httd_override_code }}"
-  
+    
+- name: Enable necessary .htaccess overrides
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ apache2_default_conf_path }}"
+    line: "\t{{ htaccess_code }}"      
+    insertafter: DocumentRoot.*
+    
+- name: Restart apache2 service
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
 
-# - name: Converting config code to string
-#   set_fact:
-#     htaccess_code: "{{ ht_access_raw_code | join('\n\t') }}"
-#     phar_code: "{{ phar_raw_code | join('\n') }}"
-    
-# - name: Enable necessary .htaccess overrides
-#   become: true
-#   ansible.builtin.lineinfile:
-#     path: "{{ apache2_default_conf_path }}"
-#     line: "\t{{ htaccess_code }}"      
-#     insertafter: DocumentRoot.*
-    
-# - name: Restart apache2 service
-#   ansible.builtin.service:
-#     name: apache2
-#     state: restarted
-
-# - name: "Turning off phar.readonly"
-#   become: true
-#   ansible.builtin.lineinfile:
-#     path: "{{ php_cli_ini_path }}"
-#     line: "{{ phar_code }}\n"      
-#     insertbefore: CLI Server.*
+- name: "Turning off phar.readonly"
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ php_cli_ini_path }}"
+    line: "{{ phar_code }}\n"      
+    insertbefore: CLI Server.*
         
 
  
