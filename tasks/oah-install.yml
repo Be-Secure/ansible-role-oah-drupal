@@ -87,7 +87,7 @@
   become: true
   ansible.builtin.lineinfile:
     path: "{{ apache2_default_conf_path }}"
-    line: "\t{{ htaccess_code }}"      
+    line: "\t{{ ht_access_raw_code }}"      
     insertafter: DocumentRoot.*
     
 - name: Restart apache2 service
