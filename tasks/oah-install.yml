@@ -65,7 +65,7 @@
     src: "{{drupal_default_path}}/default.settings.php"
     dest: "{{drupal_default_path}}/settings.php"
     mode: 0777
-  remote_src: "{{ (vm_mode == 'host')|ternary('yes', 'no') }}"
+    remote_src: "{{ (vm_mode == 'host')|ternary('yes', 'no') }}"
 
 # - name: Setting up file permissions
 #   become: true
@@ -82,7 +82,7 @@
   ansible.builtin.copy:
     src: "/etc/php/7.2/apache2/php.ini"
     dest: "/usr/lib/php/7.2/php.ini-production"
-  remote_src: "{{ (vm_mode == host)|ternary('yes', 'no') }}"
+    remote_src: "{{ (vm_mode == host)|ternary('yes', 'no') }}"
 
   # shell: |
   #   cp /etc/php/7.2/apache2/php.ini /usr/lib/php/7.2/php.ini-production
