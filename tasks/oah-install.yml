@@ -82,16 +82,21 @@
     a2enmod php7.2
     
 # systemctl restart apache2.service
+- name: Converting raw codes
+  set_fact:
+    ht_access_code: "{{ ht_access_raw_code | join('\n't) }}"
+    phar_code: "{{ phar_raw_code | join('\n't) }}"
     
     
 - name: Enable necessary .htaccess overrides
   become: true
   ansible.builtin.lineinfile:
     path: "{{ apache2_default_conf_path }}"
-    line: "\t{{ ht_access_raw_code }}"      
+    line: "\t{{ ht_access_code }}"      
     insertafter: DocumentRoot.*
     
 - name: Restart apache2 service
+  become: true
   ansible.builtin.service:
     name: apache2
     state: restarted
