@@ -84,8 +84,8 @@
 # systemctl restart apache2.service
 - name: Converting raw codes
   set_fact:
-    ht_access_code: "{{ ht_access_raw_code | join('\n't) }}"
-    phar_code: "{{ phar_raw_code | join('\n't) }}"
+    ht_access_code: "{{ ht_access_raw_code | join('\n\t') }}"
+    phar_code: "{{ phar_raw_code | join('\n\t') }}"
     
     
 - name: Enable necessary .htaccess overrides
