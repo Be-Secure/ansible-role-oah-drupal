@@ -1,2 +1,12 @@
-# ansible-role-oah-drupal
-Ansible role for install Drupal
+Role Name
+=========
+
+Ansible role to install drupal
+
+Requirements
+------------
+
+- php
+- apache
+- mysql
+- web-browser

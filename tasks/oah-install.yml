@@ -1,0 +1,115 @@
+---
+- debug: 
+    msg: "Setting up drupal"
+    
+- name: Installing apt packages
+  apt:
+    name: "{{drupal_apt_packages}}"
+    state: present
+
+
+- name: Downloading artifact
+  become: true
+  get_url:
+    url: "{{drupal_artifact_url}}"
+    dest: "{{drupal_deploy_dir}}"
+  
+
+- name: "Extracting to /var/www/html"
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{drupal_core_zip}}"
+    dest: "{{drupal_deploy_dir}}"
+    remote_src: "{{ (oah_vm_mode == 'host')|ternary('no', 'yes') }}"
+  
+
+# - name: "Extracting to /var/www/html"
+#   ansible.builtin.unarchive:
+#     src: /var/www/html/drupal-8.6.5.zip
+#     dest: /var/www/html/
+#     remote_src: yes
+#   become: true
+
+# - name: Setting up file permissions
+#   become: true
+#   shell: |
+#     mkdir -p /var/www/html/drupal-8.6.5/sites/default/files
+#     chmod -R 777 /var/www/html/drupal-8.6.5/sites/default/files
+#     cp /var/www/html/drupal-8.6.5/sites/default/default.settings.php /var/www/html/drupal-8.6.5/sites/default/settings.php
+#     chmod 777 /var/www/html/drupal-8.6.5/sites/default/settings.php
+
+- name: Creating files directory
+  become: true
+  file: 
+    path: "{{drupal_default_path}}/files"
+    state: directory
+    mode: 0777
+    
+- name: Setting up settings.php
+  become: true
+  ansible.builtin.copy:
+    src: "{{drupal_default_path}}/default.settings.php"
+    dest: "{{drupal_default_path}}/settings.php"
+    mode: 0777
+    remote_src: "{{ (oah_vm_mode == 'host')|ternary('no', 'yes') }}"
+
+# - name: Setting up file permissions
+#   become: true
+#   shell: |
+#     mkdir -p "{{drupal_default_path}}/files"
+#     chmod -R 777 "{{drupal_default_path}}/files"
+#     cp "{{drupal_default_path}}/default.settings.php" "{{drupal_default_path}}/settings.php"
+#     chmod 777 "{{drupal_default_path}}/settings.php"
+  
+
+
+- name: Updating php configuration
+  become: true
+  ansible.builtin.copy:
+    src: "/etc/php/7.2/apache2/php.ini"
+    dest: "/usr/lib/php/7.2/php.ini-production"
+    remote_src: "{{ (oah_vm_mode == 'host')|ternary('no', 'yes') }}"
+
+  # shell: |
+  #   cp /etc/php/7.2/apache2/php.ini /usr/lib/php/7.2/php.ini-production
+  #   # remote_src: yes
+
+
+- name: Installing libapache2-mod-php
+  become: true
+  shell: |
+    apt-get install libapache2-mod-php7.2
+    a2enmod php7.2
+    
+# systemctl restart apache2.service
+- name: Converting raw codes
+  set_fact:
+    ht_access_code: "{{ ht_access_raw_code | join('\n\t') }}"
+    phar_code: "{{ phar_raw_code | join('\n\t') }}"
+    
+    
+- name: Enable necessary .htaccess overrides
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ apache2_default_conf_path }}"
+    line: "\t{{ ht_access_code }}"      
+    insertafter: DocumentRoot.*
+    
+- name: Restart apache2 service
+  become: true
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+
+- name: "Turning off phar.readonly"
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ php_cli_ini_path }}"
+    line: "{{ phar_code }}\n"      
+    insertbefore: CLI Server.*
+        
+
+ 
+        
+    
+  

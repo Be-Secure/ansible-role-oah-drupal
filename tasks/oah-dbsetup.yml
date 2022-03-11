@@ -1,0 +1,17 @@
+---
+
+- debug:
+    msg: Setting up DB
+
+- name: Ensure default user is present.
+  mysql_user:
+    name: "{{drupal_db_user}}"
+    host: '{{drupal_db_host}}'
+    password: "{{drupal_db_password}}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+
+- name: Create a new database with name 'drupal_db'
+  community.mysql.mysql_db:
+    name: "{{drupal_db_name}}"
+    state: present
